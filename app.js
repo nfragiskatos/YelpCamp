@@ -65,12 +65,14 @@ app.post("/campgrounds", function(req, res) {
     // get data from form
     var name = req.body.name;
     var image = req.body.image;
+    var desc = req.body.description;
     
     //add to campgrounds array
     Campground.create(
         {
             name: name, 
-            image: image   
+            image: image,
+            description: desc
         }, function(err, campground) {
             if (err) {
                 console.log(err);
