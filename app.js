@@ -51,7 +51,19 @@ app.post("/campgrounds", function(req, res) {
     var image = req.body.image;
     
     //add to campgrounds array
-    campgrounds.push({name: name, image: image});
+    Campground.create(
+        {
+            name: name, 
+            image: image   
+        }, function(err, campground) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log("Added a new campground");
+                console.log(campground);
+            }
+        }
+    );
     
     // redirect back to campgrounds page
     res.redirect("/campgrounds");
