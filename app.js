@@ -16,29 +16,15 @@ var express     = require("express"),
     app         = express(),
     bodyParser  = require("body-parser"),
     mongoose    = require("mongoose"),
-    Campground  = require("./models/campground");
+    Campground  = require("./models/campground"),
+    seedDB      = require("./seeds");
+    
+
+seedDB();
 
 mongoose.connect("mongodb://localhost:27017/yelp_camp", {useNewUrlParser: true});
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
-
-
-
-// Campground.create(
-//         {
-//             name: "Granite Hill", 
-//             image: "https://www.quebecoriginal.com/en/listing/images/800x600/ae2894cf-af0a-46dc-904d-8a91b0059376/camping-parc-national-du-mont-tremblant-de-la-diable-camping-secteur-la-diable.jpg",   
-//             description: "This is a huge granite hill. No bathrooms. No water. Beautiful granite!"
-//         }, function(err, campground) {
-//             if (err) {
-//                 console.log(err);
-//             } else {
-//                 console.log("Added a new campground");
-//                 console.log(campground);
-//             }
-//         }
-//     );
-
 
 app.get("/", function(req, res) {
     res.render("landing");
@@ -92,7 +78,7 @@ app.get("/campgrounds/new", function(req, res) {
 //      since campgrounds/new would fit this pattern.
 app.get("/campgrounds/:id", function(req, res) {
     // find the campground with provided ID
-    Campground.findById(req.params.id, function(err, foundCampground) {
+    Campground.findById(req.params.id).populate("comments").exec(function(err, foundCampground) {
         if (err) {
             console.log(err);
         } else {
