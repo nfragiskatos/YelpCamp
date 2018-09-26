@@ -33,7 +33,7 @@ router.post("/", function(req, res){
 });
 
 //NEW - show form to create new campground
-router.get("//new", function(req, res){
+router.get("/new", function(req, res){
    res.render("campgrounds/new"); 
 });
 
@@ -44,8 +44,6 @@ router.get("/:id", function(req, res){
         if(err){
             console.log(err);
         } else {
-            console.log(foundCampground)
-            //render show template with that campground
             res.render("campgrounds/show", {campground: foundCampground});
         }
     });
