@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var Campground = require("../models/campground");
-var middleware = require("../middleware/"); // don't have to specify index.js, because if you just specify a directory then the any file namex index.js will be required by default.
+var middleware = require("../middleware");
 
 //INDEX - show all campgrounds
 router.get("/", function(req, res){
@@ -21,11 +21,12 @@ router.post("/", middleware.isLoggedIn, function(req, res){
     var name = req.body.name;
     var image = req.body.image;
     var desc = req.body.description;
+    var price = req.body.price;
     var author = {
         id: req.user._id,
         username: req.user.username
     };
-    var newCampground = {name: name, image: image, description: desc, author: author};
+    var newCampground = {name: name, image: image, description: desc, author: author, price: price};
     // Create a new campground and save to DB
     Campground.create(newCampground, function(err, newlyCreated){
         if(err){
